@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Book reliable private transportation in Las Vegas with Ride With Foxy. Airport transfers, hourly rides, round trips and more.">
+<title>Ride With Foxy | Las Vegas Private Transportation</title>
+<style>
+:root{--blue:#28a8ff;--navy:#07111f;--card:#0d1a2c;--text:#f7fbff;--muted:#a8bed3;--line:#233953;--good:#59e391}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#03070d,#09182a);color:var(--text);font-family:Arial,sans-serif;line-height:1.5}a{color:inherit}.wrap{width:min(1100px,92%);margin:auto}
+header{border-bottom:1px solid var(--line);background:#050b13dd;position:sticky;top:0;z-index:5}.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:1.25rem;font-weight:900}.brand span{color:var(--blue)}nav a{text-decoration:none;color:var(--muted);margin-left:20px}
+.hero{padding:72px 0 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}.tag{color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.12em}h1{font-size:clamp(2.5rem,6vw,5.2rem);line-height:.96;margin:.2em 0}.lead{font-size:1.15rem;color:var(--muted);max-width:620px}.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.badge{padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:#0b1725}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 20px 70px #0009}h2{margin-top:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:6px}.full{grid-column:1/-1}label{font-weight:700;font-size:.92rem}input,select{width:100%;padding:14px;border:1px solid #35506d;border-radius:11px;background:#07111f;color:white;font:inherit;min-height:50px}input:focus,select:focus{outline:3px solid #28a8ff55;border-color:var(--blue)}
+.estimate{margin:18px 0;padding:15px;border-radius:12px;background:#07111f;border:1px solid var(--line);display:flex;justify-content:space-between}.price{color:var(--good);font-size:1.35rem;font-weight:900}.btn{display:block;width:100%;border:0;border-radius:12px;padding:16px;background:var(--blue);color:#00101d;font-weight:900;font-size:1.05rem;cursor:pointer}.btn:hover{filter:brightness(1.12)}.note{font-size:.82rem;color:var(--muted);margin-bottom:0}
+section{padding:55px 0}.section-title{text-align:center;font-size:2rem}.services{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.service{background:var(--card);border:1px solid var(--line);padding:22px;border-radius:16px}.service b{display:block;color:var(--blue);font-size:1.1rem;margin-bottom:5px}.service p{color:var(--muted);margin:0}
+footer{padding:35px 0;border-top:1px solid var(--line);color:var(--muted);text-align:center}
+@media(max-width:800px){nav{display:none}.hero{grid-template-columns:1fr;padding-top:40px}.services{grid-template-columns:1fr 1fr}}@media(max-width:520px){.grid,.services{grid-template-columns:1fr}.full{grid-column:auto}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><div class="brand">RIDE WITH <span>FOXY</span></div><nav><a href="#book">Book</a><a href="#services">Services</a><a href="#about">Why Foxy</a></nav></div></header>
+<main>
+<div class="wrap hero">
+<div><div class="tag">Las Vegas private transportation</div><h1>Your ride.<br>Your time.<br><span style="color:var(--blue)">No hassle.</span></h1><p class="lead">Schedule a clean, comfortable private ride without creating an account. See an estimate first, then send your request in one tap.</p><div class="badges"><span class="badge">No login</span><span class="badge">Upfront estimate</span><span class="badge">Local Las Vegas service</span></div></div>
+<form class="panel" id="book">
+<h2>Request a ride</h2>
+<div class="grid">
+<div class="field full"><label for="type">Ride type</label><select id="type"><option value="oneway">One way</option><option value="round">Round trip</option><option value="airport">Airport transfer</option><option value="hourly">Hourly rental</option><option value="day">Full day</option></select></div>
+<div class="field full"><label for="pickup">Pickup location</label><input id="pickup" required placeholder="Hotel, airport, or address"></div>
+<div class="field full"><label for="dropoff">Destination</label><input id="dropoff" required placeholder="Where are you going?"></div>
+<div class="field"><label for="date">Pickup date</label><input id="date" type="date" required></div>
+<div class="field"><label for="time">Pickup time</label><input id="time" type="time" required></div>
+<div class="field"><label for="riders">Passengers</label><select id="riders"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+<div class="field"><label for="miles">Estimated miles</label><input id="miles" type="number" value="10" min="1" max="300"></div>
+</div>
+<div class="estimate"><span>Estimated fare*</span><span class="price" id="price">$35–$42</span></div>
+<button class="btn" type="submit">Send booking request</button>
+<p class="note">*Estimate only. Final price and availability are confirmed before the ride. Sending a request does not charge you.</p>
+</form>
+</div>
+<section id="services"><div class="wrap"><h2 class="section-title">Simple rides for real plans</h2><div class="services"><div class="service"><b>Airport</b><p>Pickup and drop-off for Harry Reid International Airport.</p></div><div class="service"><b>Point to point</b><p>Private transportation anywhere in the Las Vegas service area.</p></div><div class="service"><b>Hourly</b><p>Keep your driver available for several stops and flexible plans.</p></div><div class="service"><b>Events</b><p>Concerts, dinners, conventions and special occasions.</p></div></div></div></section>
+<section id="about"><div class="wrap panel"><h2>Ride local. Ride direct.</h2><p class="lead">Ride With Foxy keeps booking clear and personal. No account forms, no confusing membership, and no surprise charge just for asking about a ride.</p></div></section>
+</main>
+<footer><div class="wrap">© <span id="year"></span> Ride With Foxy · Las Vegas, Nevada</div></footer>
+<script>
+const type=document.querySelector('#type'),miles=document.querySelector('#miles'),price=document.querySelector('#price'),form=document.querySelector('#book');
+document.querySelector('#year').textContent=new Date().getFullYear();
+document.querySelector('#date').min=new Date().toISOString().split('T')[0];
+function estimate(){let mi=Math.max(1,Number(miles.value)||1),base=15,rate=2;
+if(type.value==='round'){base=25;rate=3.5}if(type.value==='airport'){base=25;rate=2.25}if(type.value==='hourly'){price.textContent='$75–$95/hour';return}if(type.value==='day'){price.textContent='$550–$750/day';return}
+let low=Math.ceil(base+mi*rate),high=Math.ceil(low*1.2);price.textContent='$'+low+'–$'+high}
+type.addEventListener('change',estimate);miles.addEventListener('input',estimate);estimate();
+form.addEventListener('submit',e=>{e.preventDefault();const data={type:type.options[type.selectedIndex].text,pickup:document.querySelector('#pickup').value,dropoff:document.querySelector('#dropoff').value,date:document.querySelector('#date').value,time:document.querySelector('#time').value,riders:document.querySelector('#riders').value,estimate:price.textContent};const message='Ride With Foxy booking request\nRide: '+data.type+'\nPickup: '+data.pickup+'\nDestination: '+data.dropoff+'\nDate: '+data.date+' at '+data.time+'\nPassengers: '+data.riders+'\nWebsite estimate: '+data.estimate;window.location.href='sms:17025550123?body='+encodeURIComponent(message)})
+</script>
+</body></html>
