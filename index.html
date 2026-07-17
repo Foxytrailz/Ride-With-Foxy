@@ -34,7 +34,8 @@ footer{padding:35px 0;border-top:1px solid var(--line);color:var(--muted);text-a
 <div class="field"><label for="miles">Estimated miles</label><input id="miles" type="number" value="10" min="1" max="300"></div>
 </div>
 <div class="estimate"><span>Estimated fare*</span><span class="price" id="price">$35–$42</span></div>
-<button class="btn secondary" id="mapRoute" type="button">Open route in Google Maps</button>\n<button class="btn" type="submit">Send booking request</button>
+<button class="btn secondary" id="mapRoute" type="button">Open route in Google Maps</button>
+<button class="btn" type="submit">Send booking request</button>
 <p class="note">*Estimate only. Final price and availability are confirmed before the ride. Sending a request does not charge you.</p>
 </form>
 </div>
@@ -49,7 +50,8 @@ document.querySelector('#date').min=new Date().toISOString().split('T')[0];
 function estimate(){let mi=Math.max(1,Number(miles.value)||1),base=15,rate=2;
 if(type.value==='round'){base=25;rate=3.5}if(type.value==='airport'){base=25;rate=2.25}if(type.value==='hourly'){price.textContent='$75–$95/hour';return}if(type.value==='day'){price.textContent='$550–$750/day';return}
 let low=Math.ceil(base+mi*rate),high=Math.ceil(low*1.2);price.textContent='$'+low+'–$'+high}
-type.addEventListener('change',estimate);miles.addEventListener('input',estimate);estimate();\ndocument.querySelector('#mapRoute').addEventListener('click',()=>{const origin=document.querySelector('#pickup').value.trim(),destination=document.querySelector('#dropoff').value.trim();if(!origin||!destination){alert('Enter the pickup location and destination first.');return}window.open('https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(origin)+'&destination='+encodeURIComponent(destination)+'&travelmode=driving','_blank','noopener')});
+type.addEventListener('change',estimate);miles.addEventListener('input',estimate);estimate();
+document.querySelector('#mapRoute').addEventListener('click',()=>{const origin=document.querySelector('#pickup').value.trim(),destination=document.querySelector('#dropoff').value.trim();if(!origin||!destination){alert('Enter the pickup location and destination first.');return}window.open('https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(origin)+'&destination='+encodeURIComponent(destination)+'&travelmode=driving','_blank','noopener')});
 form.addEventListener('submit',e=>{e.preventDefault();const data={type:type.options[type.selectedIndex].text,pickup:document.querySelector('#pickup').value,dropoff:document.querySelector('#dropoff').value,date:document.querySelector('#date').value,time:document.querySelector('#time').value,riders:document.querySelector('#riders').value,estimate:price.textContent};const message='Ride With Foxy booking request\nRide: '+data.type+'\nPickup: '+data.pickup+'\nDestination: '+data.dropoff+'\nDate: '+data.date+' at '+data.time+'\nPassengers: '+data.riders+'\nWebsite estimate: '+data.estimate;window.location.href='sms:17028830971?body='+encodeURIComponent(message)})
 </script>
 </body></html>
