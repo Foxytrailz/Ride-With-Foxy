@@ -31,7 +31,7 @@ footer{padding:35px 0;border-top:1px solid var(--line);color:var(--muted);text-a
 <div class="field"><label for="date">Pickup date</label><input id="date" type="date" required></div>
 <div class="field"><label for="time">Pickup time</label><input id="time" type="time" required></div>
 <div class="field"><label for="riders">Passengers</label><select id="riders"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
-<div class="field"><label for="miles">Estimated miles</label><input id="miles" type="number" value="10" min="1" max="300"></div>
+<div class="field"><label for="miles">Automatic distance</label><input id="miles" type="text" value="" placeholder="Enter both addresses" readonly><small id="routeStatus" style="color:var(--muted)">Mileage is calculated for you.</small></div>
 </div>
 <div class="estimate"><span>Estimated fare*</span><span class="price" id="price">$35–$42</span></div>
 <button class="btn secondary" id="mapRoute" type="button">Open route in Google Maps</button>
@@ -44,14 +44,18 @@ footer{padding:35px 0;border-top:1px solid var(--line);color:var(--muted);text-a
 </main>
 <footer><div class="wrap">© <span id="year"></span> Ride With Foxy · Las Vegas, Nevada</div></footer>
 <script>
-const type=document.querySelector('#type'),miles=document.querySelector('#miles'),price=document.querySelector('#price'),form=document.querySelector('#book');
+const type=document.querySelector('#type'),miles=document.querySelector('#miles'),price=document.querySelector('#price'),form=document.querySelector('#book'),routeStatus=document.querySelector('#routeStatus');let routeMiles=0,routeMinutes=0,routeTimer;
 document.querySelector('#year').textContent=new Date().getFullYear();
 document.querySelector('#date').min=new Date().toISOString().split('T')[0];
-function estimate(){let mi=Math.max(1,Number(miles.value)||1),base=15,rate=2;
+function estimate(){let mi=Math.max(0,routeMiles),base=15,rate=2;if(!mi&&type.value!=='hourly'&&type.value!=='day'){price.textContent='Enter route';return}
 if(type.value==='round'){base=25;rate=3.5}if(type.value==='airport'){base=25;rate=2.25}if(type.value==='hourly'){price.textContent='$75–$95/hour';return}if(type.value==='day'){price.textContent='$550–$750/day';return}
 let low=Math.ceil(base+mi*rate),high=Math.ceil(low*1.2);price.textContent='$'+low+'–$'+high}
-type.addEventListener('change',estimate);miles.addEventListener('input',estimate);estimate();
+type.addEventListener('change',estimate);estimate();
+async function geocode(address){const response=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q='+encodeURIComponent(address));if(!response.ok)throw new Error('Address lookup failed');const results=await response.json();if(!results.length)throw new Error('Address not found');return [Number(results[0].lon),Number(results[0].lat)]}
+async function calculateRoute(){const origin=document.querySelector('#pickup').value.trim(),destination=document.querySelector('#dropoff').value.trim();if(origin.length<5||destination.length<5)return;routeStatus.textContent='Calculating mileage…';miles.value='Calculating…';try{const start=await geocode(origin);await new Promise(resolve=>setTimeout(resolve,1100));const end=await geocode(destination);const response=await fetch('https://router.project-osrm.org/route/v1/driving/'+start.join(',')+';'+end.join(',')+'?overview=false&alternatives=true&steps=false');if(!response.ok)throw new Error('Route unavailable');const data=await response.json();if(!data.routes?.length)throw new Error('Route unavailable');const best=data.routes.reduce((a,b)=>a.duration<b.duration?a:b);routeMiles=best.distance/1609.344;routeMinutes=best.duration/60;miles.value=routeMiles.toFixed(1)+' miles';routeStatus.textContent='About '+Math.round(routeMinutes)+' minutes. Confirm live traffic in Google Maps.';estimate()}catch(error){routeMiles=0;routeMinutes=0;miles.value='Route unavailable';routeStatus.textContent='Check both addresses, then try again.';estimate()}}
+function scheduleRoute(){clearTimeout(routeTimer);routeTimer=setTimeout(calculateRoute,900)}
+document.querySelector('#pickup').addEventListener('change',scheduleRoute);document.querySelector('#dropoff').addEventListener('change',scheduleRoute);
 document.querySelector('#mapRoute').addEventListener('click',()=>{const origin=document.querySelector('#pickup').value.trim(),destination=document.querySelector('#dropoff').value.trim();if(!origin||!destination){alert('Enter the pickup location and destination first.');return}window.open('https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(origin)+'&destination='+encodeURIComponent(destination)+'&travelmode=driving','_blank','noopener')});
-form.addEventListener('submit',e=>{e.preventDefault();const data={type:type.options[type.selectedIndex].text,pickup:document.querySelector('#pickup').value,dropoff:document.querySelector('#dropoff').value,date:document.querySelector('#date').value,time:document.querySelector('#time').value,riders:document.querySelector('#riders').value,estimate:price.textContent};const message='Ride With Foxy booking request\nRide: '+data.type+'\nPickup: '+data.pickup+'\nDestination: '+data.dropoff+'\nDate: '+data.date+' at '+data.time+'\nPassengers: '+data.riders+'\nWebsite estimate: '+data.estimate;window.location.href='sms:17028830971?body='+encodeURIComponent(message)})
+form.addEventListener('submit',e=>{e.preventDefault();const data={type:type.options[type.selectedIndex].text,pickup:document.querySelector('#pickup').value,dropoff:document.querySelector('#dropoff').value,date:document.querySelector('#date').value,time:document.querySelector('#time').value,riders:document.querySelector('#riders').value,estimate:price.textContent};const message='Ride With Foxy booking request\nRide: '+data.type+'\nPickup: '+data.pickup+'\nDestination: '+data.dropoff+'\nDate: '+data.date+' at '+data.time+'\nPassengers: '+data.riders+'\nDistance: '+(routeMiles?routeMiles.toFixed(1)+' miles':'Pending')+'\nEstimated drive time: '+(routeMinutes?Math.round(routeMinutes)+' minutes':'Pending')+'\nWebsite estimate: '+data.estimate;window.location.href='sms:17028830971?body='+encodeURIComponent(message)})
 </script>
 </body></html>
