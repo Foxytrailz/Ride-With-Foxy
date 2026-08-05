@@ -1,0 +1,55 @@
+import os
+import requests
+
+def run_free_foxy_agent():
+    gh_token = os.getenv("GH_TOKEN")
+
+    if not gh_token:
+        print("Error: GH_TOKEN secret is missing.")
+        return
+
+    endpoint_url = "https://models.github.ai/inference/chat/completions"
+
+    payload = {
+        "model": "gpt-4o",
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are an automated routing assistant for the Ride With Foxy project."
+            },
+            {
+                "role": "user",
+                "content": "Analyze the repository files and generate optimized ride logistics."
+            }
+        ],
+        "temperature": 0.7,
+        "max_tokens": 2048
+    }
+
+    headers = {
+        "Authorization": f"Bearer {gh_token}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        response = requests.post(
+            endpoint_url,
+            json=payload,
+            headers=headers,
+            timeout=60
+        )
+
+        response.raise_for_status()
+
+        result = response.json()
+
+        print("Task completed!")
+        print(result["choices"][0]["message"]["content"])
+
+    except requests.exceptions.RequestException as e:
+        print("Request failed:", e)
+        if hasattr(e, "response") and e.response is not None:
+            print(e.response.text)
+
+if __name__ == "__main__":
+    run_free_foxy_agent()
