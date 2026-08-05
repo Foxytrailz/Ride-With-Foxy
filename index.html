@@ -39,7 +39,7 @@
 <div class="field"><label for="date">Pickup date</label><input id="date" required type="date"></div>
 <div class="field"><label for="time">Pickup time</label><input id="time" required type="time"></div>
 <div class="field"><label for="rideType">Ride type</label><select id="rideType"><option>One-Way</option><option>Airport One-Way</option><option>Round-Trip</option><option>Hourly</option><option>Half-Day (6 Hours)</option><option>Full-Day</option><option>Weekend</option></select></div>
-<div class="field"><label for="riders">Passengers</label><select id="riders"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></div>
+<div class="field"><label for="riders">Number of passengers</label><input id="riders" required type="number" inputmode="numeric" min="1" max="7" step="1" placeholder="Enter 1–7"></div>
 <div class="field full" id="terminalField" hidden><label for="terminal">Airport terminal</label><select id="terminal"><option value="">Choose terminal</option><option>Terminal 1</option><option>Terminal 3</option><option>Other airport / terminal</option></select></div>
 <div class="field full" id="hoursField" hidden><label for="hours">Hours requested</label><select id="hours"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
 <div class="field full"><label for="notes">Notes</label><textarea id="notes" rows="3" placeholder="Luggage, event traffic, accessibility needs, or extra stop..."></textarea></div>
