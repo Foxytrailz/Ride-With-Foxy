@@ -9,7 +9,8 @@ A mobile-friendly private transportation booking MVP for Las Vegas.
 - One-tap text booking request
 - Responsive blue-and-black design
 - Private rider PIN and required ride-policy acknowledgement
-- Up to 6 passengers in one silver Chevy Traverse
+- Up to 7 passengers in one silver Chevy Traverse
+- Clickable OpenStreetMap pickup and destination pins
 - Terminal selection for airport rides, with no flight number required
 
 ## Booking delivery
